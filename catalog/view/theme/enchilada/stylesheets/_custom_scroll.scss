@@ -1,0 +1,30 @@
+
+.scroll_container_wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+
+.scroll_block {
+    position: absolute;
+    top: 100 * $px;
+    
+    
+    width: 6 * $px;
+     right: 12 * $px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.scroll_runner {
+    position: relative;
+    top: 0;
+    /*custom*/
+    //height: 30 * $px;
+    background-color: $light_green;
+}
+
+.scroll_container,
+.scroll_runner {
+    /*scroll speed*/
+    transition: 0.5s;
+}

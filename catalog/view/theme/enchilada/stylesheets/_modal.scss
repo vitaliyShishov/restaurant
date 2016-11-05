@@ -1,0 +1,23 @@
+body.hidden {
+    position: fixed;
+    left: 0;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /*changing property and effect duration*/
+    opacity: 0;
+    transition-duration: 1s;
+    background-color: $light_beige;
+    z-index: 1000
+}
+
+.modal.visible {
+    /*changing property and effect duration*/
+    opacity: 1;
+    transition-duration: 1s;
+}

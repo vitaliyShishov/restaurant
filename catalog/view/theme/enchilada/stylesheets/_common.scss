@@ -1,0 +1,23 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background-color: $light_beige;
+
+    @include standart_font;
+}
+
+img {
+    display: block;
+}
+
+input {
+    @include standart_font;
+    text-overflow: ellipsis;
+    &:focus {
+        outline: none;
+    }
+}
+h1, h2, h3, h4, h5, h6, p {
+    margin:0;
+}

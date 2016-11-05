@@ -1,0 +1,170 @@
+@font-face {
+    font-family: Light;
+    src: url(../fonts/GothamProLight.ttf)
+}
+
+@font-face {
+    font-family: Regular;
+    src: url(../fonts/GothamProRegular.ttf)
+}
+
+@font-face {
+    font-family: Medium;
+    src: url(../fonts/GothamProMedium.ttf)
+}
+
+$px: 0.13vw;
+$fs_22: 22 * $px;
+$fs_24: 24 * $px;
+$fs_30: 30 * $px;
+$fs_36: 36 * $px;
+$fs_60: 60 * $px;
+$deep_red: #b9282b;
+$font_red: #ae2629;
+$dark_grey: #333;
+$beige: #f1e0c4;
+$light_beige: #f1e2cb;
+$dark_beige: #b1a289;
+$deep_beige: #e4d4bb;
+$font_yellow: #fdd93c;
+$border_yellow: #fed700;
+$dark_shim: rgba(35, 35, 35, 0.55);
+$light_shim: rgba(255, 255, 255, 0.55);
+$border_grey: #cecccc;
+
+
+$light_green: #3daf75;
+
+
+
+$footer_height: 140 * $px;
+$empty_height:  $footer_height - 1 * $px;
+
+%down_arrow {
+    position: relative;
+    width: 40 * $px;
+    height: 40 * $px;
+    &:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        width: 15 * $px;
+        height: 15 * $px;
+        border-bottom: 3 * $px solid black;
+        border-left: 3 * $px solid black;
+        transform: rotate(-45deg);
+    }
+}
+
+%right_arrow {
+    position: relative;
+    width: 40 * $px;
+    height: 40 * $px;
+    &:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        width: 20 * $px;
+        height: 20 * $px;
+        border-bottom: 4 * $px solid white;
+        border-right: 4 * $px solid white;
+        transform: rotate(-45deg);
+    }
+}
+
+%triangle_line {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 17 * $px;
+    background: {
+        image: url(../images/triangle_line.jpg);
+        repeat: repeat-x;
+        size: auto 100%;
+    }
+}
+
+%header_logo {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: auto;
+    margin: auto;
+}
+
+%shim {
+    position: relative;
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $dark_shim;
+    }
+}
+%white_shim {
+        position: relative;
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $light_shim;
+    }
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+button {
+    border: none;
+    background-color: transparent;
+    &:focus {
+        outline: none;
+    }
+}
+
+@mixin standart_font {
+    font-family: Regular;
+    font-size: $fs_24;
+    color: $dark_grey;
+}
+
+input::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    @include standart_font;
+}
+
+input::-moz-placeholder {
+    /* Firefox 19+ */
+    @include standart_font;
+}
+
+input:-ms-input-placeholder {
+    /* IE 10+ */
+    @include standart_font;
+}
+
+input:-moz-placeholder {
+    /* Firefox 18- */
+    @include standart_font;
+}
+
+
+/*animations*/
+
+@keyframes preloader {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(360deg)
+    }
+}

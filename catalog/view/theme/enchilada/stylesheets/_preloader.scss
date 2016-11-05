@@ -1,0 +1,151 @@
+.preloader {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    height: 100vh;
+    opacity: 1;
+   // transition: 0.5s;
+    z-index: 2;
+
+    .preloader_header {
+        position: relative;
+        width: 100%;
+        img {
+            width: 100%;
+            height: auto;
+        }
+        .preloader_line {
+            @extend %triangle_line;
+        }
+        .preloader_logo {
+            img {
+                @extend %header_logo;
+                top: 235 * $px;
+                width: 335 * $px;
+            }
+        }
+    }
+    .preloader_bg {
+        flex: 100%;
+        background: {
+            image: url(../images/pattern_biege.jpg);
+            repeat: repeat-x;
+            size: auto 100%;
+        }
+        .preloader_wait {position: absolute;
+        width: 100%;}
+        .preloader_circle {
+            padding-top: 60%;
+            img {
+                position: relative;
+                width: 125 * $px;
+                height: auto;
+                margin: auto;
+                animation: {
+                    name: preloader;
+                    duration: 1.5s;
+                    timing-function: ease-in-out;
+                    iteration-count: infinite;
+                }
+            }
+        }
+        .preloader_text {
+            padding-top: 33 * $px;
+            text-align: center;
+            font-family: Light;
+        }
+        .select_table {           
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+            opacity: 0;
+            transition: 0.5s;
+            .select_table_title {
+                padding-top: 150 * $px;
+                text-align: center;
+                color: $font_red;
+                text-transform: uppercase;
+                font-family: Medium;
+                font-size: $fs_60;
+            }
+            .select_table_number {
+                padding: 0 28 * $px;
+                label {
+                    input {
+                        display: block;
+                        box-sizing: border-box;
+                        width: 100%;
+                        height: 120 * $px;
+                        margin-top: 25 * $px;
+                        padding: 35 * $px;
+                        border: 3 * $px dashed $deep_red;
+                        font-size: $fs_60;
+                    }
+                }
+            }
+            .select_language {
+                padding: 0 28 * $px;
+                span {
+                    font-family: Medium;
+                }
+                div.lang_wrapper {
+                    display: block;
+                    position: relative;
+                    box-sizing: border-box;
+                    width: 100%;
+                    height: 100 * $px;
+                    margin-top: 25 * $px;
+                    padding: 0 25 * $px;
+                    background-color: rgba(183, 164, 133, 0.45);
+                    border: none;
+                    font-size: $fs_60;
+                    .lang {
+                        position: relative;
+                        height: 100%;
+                        padding-left: 60 * $px;
+                        line-height: 100 * $px;
+                        font-size: $fs_30;
+                        img {
+                            position: absolute;
+                            top: 50%;
+                            left: 0;
+                            transform: translateY(-50%);
+                            width: 43 * $px;
+                            height: auto;
+                        }
+                    }
+                    .down_arrow {
+                        @extend %down_arrow;
+                        position: absolute;
+                        right: 25 * $px;
+                        top: 40 * $px;
+                    }
+                }
+            }
+            .select_table_next {
+                height: 140 * $px;
+                background: {
+                    image: url(../images/pattern_red.jpg);
+                    repeat: repeat-x;
+                    size: auto 100%;
+                }
+                .next {
+                    position: relative;
+                    padding-right: 85 * $px;
+                    line-height: 140 * $px;
+                    color: white;
+                    text-align: right;
+                    font-family: Medium;
+                    font-size: $fs_36;
+                    .right_arrow {
+                        @extend %right_arrow;
+                        position: absolute;
+                        right: 20 * $px;
+                        top: 58 * $px;
+                    }
+                }
+            }
+        }
+    }
+}
