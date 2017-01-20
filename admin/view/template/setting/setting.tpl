@@ -34,11 +34,11 @@
             <li class="active"><a href="#tab-general" data-toggle="tab"><?php echo $tab_general; ?></a></li>
             <li><a href="#tab-store" data-toggle="tab"><?php echo $tab_store; ?></a></li>
             <li><a href="#tab-local" data-toggle="tab"><?php echo $tab_local; ?></a></li>
-            <li><a href="#tab-option" data-toggle="tab"><?php echo $tab_option; ?></a></li>
+            <li><a href="#tab-option" style="display:none;" data-toggle="tab"><?php echo $tab_option; ?></a></li>
             <li><a href="#tab-image" data-toggle="tab"><?php echo $tab_image; ?></a></li>
-            <li><a href="#tab-ftp" data-toggle="tab"><?php echo $tab_ftp; ?></a></li>
-            <li><a href="#tab-mail" data-toggle="tab"><?php echo $tab_mail; ?></a></li>
-            <li><a href="#tab-server" data-toggle="tab"><?php echo $tab_server; ?></a></li>
+            <li><a href="#tab-ftp" style="display:none;" data-toggle="tab"><?php echo $tab_ftp; ?></a></li>
+            <li><a href="#tab-mail" style="display:none;" data-toggle="tab"><?php echo $tab_mail; ?></a></li>
+            <li><a href="#tab-server" style="display:none;" data-toggle="tab"><?php echo $tab_server; ?></a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab-general">
@@ -78,7 +78,7 @@
                   <br />
                   <img src="" alt="" id="theme" class="img-thumbnail" /></div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display:none;">
                 <label class="col-sm-2 control-label" for="input-layout"><?php echo $entry_layout; ?></label>
                 <div class="col-sm-10">
                   <select name="config_layout_id" id="input-layout" class="form-control">

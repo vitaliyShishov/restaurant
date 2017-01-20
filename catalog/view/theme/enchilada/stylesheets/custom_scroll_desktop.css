@@ -1,0 +1,24 @@
+
+.scroll_block {
+    position: absolute;
+    /*custom*/
+    height: 95%;
+    width: 10px;
+    top: 0;
+    right: 10px;
+    background-color: green;
+}
+
+.scroll_runner {
+    position: relative;
+    top: 0;
+    /*custom*/
+    height: 30px;
+    background-color: red;
+}
+
+.scroll_container,
+.scroll_runner {
+    /*scroll speed*/
+    transition: 0.5s;
+}

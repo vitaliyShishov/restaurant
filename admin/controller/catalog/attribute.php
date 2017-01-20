@@ -263,13 +263,15 @@ class ControllerCatalogAttribute extends Controller {
 	}
 
 	protected function getForm() {
-		$data['heading_title'] = $this->language->get('heading_title');
+                $data['heading_title'] = $this->language->get('heading_title');
 
 		$data['text_form'] = !isset($this->request->get['attribute_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 
 		$data['entry_name'] = $this->language->get('entry_name');
 		$data['entry_attribute_group'] = $this->language->get('entry_attribute_group');
 		$data['entry_sort_order'] = $this->language->get('entry_sort_order');
+		$data['entry_choose_allergen_group'] = $this->language->get('entry_choose_allergen_group');
+		$data['entry_choose_allergen'] = $this->language->get('entry_choose_allergen');
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
@@ -327,7 +329,7 @@ class ControllerCatalogAttribute extends Controller {
 		$data['cancel'] = $this->url->link('catalog/attribute', 'token=' . $this->session->data['token'] . $url, true);
 
 		if (isset($this->request->get['attribute_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$attribute_info = $this->model_catalog_attribute->getAttribute($this->request->get['attribute_id']);
+			$attribute_info= $this->model_catalog_attribute->getAttribute($this->request->get['attribute_id']);
 		}
 
 		$this->load->model('localisation/language');
@@ -349,8 +351,29 @@ class ControllerCatalogAttribute extends Controller {
 		} else {
 			$data['attribute_group_id'] = '';
 		}
+                
+        if (isset($this->request->post['allergens'])) {
+			$data['allergens'] = $this->request->post['allergens'];
+		} elseif (isset($this->request->get['attribute_id'])) {
+			$data['allergens'] = $this->model_catalog_attribute->getAttributeAllergens($this->request->get['attribute_id']);
+		} else {
+			$data['allergens'] = array();
+		}
+//var_dump($data['allergens'] );die;
+		$this->load->model('catalog/allergen_group');
+
+        $results = $this->model_catalog_allergen_group->getAllergenGroups();
+
+        foreach ($results as $result) {
+            $data['allergen_groups'][] = array(
+                'id' => $result['allergen_group_id'],
+                'name'               => $result['name']
+            );
+        }
 
 		$this->load->model('catalog/attribute_group');
+		$this->load->model('catalog/allergen');
+		$this->load->model('catalog/allergen_group');
 
 		$data['attribute_groups'] = $this->model_catalog_attribute_group->getAttributeGroups();
 
@@ -361,11 +384,11 @@ class ControllerCatalogAttribute extends Controller {
 		} else {
 			$data['sort_order'] = '';
 		}
-
+                
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
-
+                                
 		$this->response->setOutput($this->load->view('catalog/attribute_form', $data));
 	}
 

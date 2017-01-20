@@ -62,6 +62,27 @@
               <input type="text" name="sort_order" value="<?php echo $sort_order; ?>" placeholder="<?php echo $entry_sort_order; ?>" id="input-sort-order" class="form-control" />
             </div>
           </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><?php echo 'Allergens'; ?></label>
+                <div class="col-sm-10">
+                    <div class="well well-sm" style="height: 150px; overflow: auto;">
+                        <?php foreach ($allergen_groups as $allergen_group) { ?>
+                        <div class="checkbox">
+                            <label>
+                                <?php if (in_array($allergen_group['id'], $allergens)) { ?>
+                                <input type="checkbox" name="allergens[]" value="<?php echo $allergen_group['id']; ?>" checked="checked" />
+                                <?php echo $allergen_group['name']; ?>
+                                <?php } else { ?>
+                                <input type="checkbox" name="allergens[]" value="<?php echo $allergen_group['id']; ?>" />
+                                <?php echo $allergen_group['name']; ?>
+                                <?php } ?>
+                            </label>
+                        </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
         </form>
       </div>
     </div>

@@ -118,7 +118,19 @@ class ControllerStartupStartup extends Controller {
 		} elseif (isset($this->session->data['guest']) && isset($this->session->data['guest']['customer_group_id'])) {
 			$this->config->set('config_customer_group_id', $this->session->data['guest']['customer_group_id']);
 		}
-		
+
+		// User
+		$user = new Cart\User($this->registry);
+		$this->registry->set('user', $user);
+
+		// User Group
+		if ($this->user->isLogged()) {
+			$this->config->set('config_user_group_id', $this->user->getGroupId());
+		} elseif (isset($this->session->data['user']) && isset($this->session->data['user']['user_group_id'])) {
+			// For API calls
+			$this->config->set('config_user_group_id', $this->session->data['user']['user_group_id']);
+		}
+
 		// Tracking Code
 		if (isset($this->request->get['tracking'])) {
 			setcookie('tracking', $this->request->get['tracking'], time() + 3600 * 24 * 1000, '/');

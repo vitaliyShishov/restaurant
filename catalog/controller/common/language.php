@@ -14,7 +14,6 @@ class ControllerCommonLanguage extends Controller {
 		$data['languages'] = array();
 
 		$results = $this->model_localisation_language->getLanguages();
-
 		foreach ($results as $result) {
 			if ($result['status']) {
 				$data['languages'][] = array(

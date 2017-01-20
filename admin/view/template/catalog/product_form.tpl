@@ -299,6 +299,12 @@
                   </select>
                 </div>
               </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-energy-value"><?php echo $entry_energy_value; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="energy_value" value="<?php echo $energy_value; ?>" placeholder="<?php echo $entry_energy_value; ?>" id="input-energy-value" class="form-control" />
+                </div>
+              </div>
               <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>
                 <div class="col-sm-10">
@@ -317,6 +323,22 @@
                 <label class="col-sm-2 control-label" for="input-sort-order"><?php echo $entry_sort_order; ?></label>
                 <div class="col-sm-10">
                   <input type="text" name="sort_order" value="<?php echo $sort_order; ?>" placeholder="<?php echo $entry_sort_order; ?>" id="input-sort-order" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><?php echo $entry_is_vegan; ?></label>
+                <div class="col-sm-10">
+                    <div class="checkbox">
+                      <label>
+                        <?php if ($is_vegan == 1) { ?>
+                        <input type="checkbox" name="is_vegan" value="1" checked="checked" />
+                        &nbsp;<?php echo $text_yes; ?>
+                        <?php } else { ?>
+                        <input type="checkbox" name="is_vegan" value="1" />
+                        &nbsp;<?php echo $text_yes; ?>
+                        <?php } ?>
+                      </label>
+                    </div>
                 </div>
               </div>
             </div>
@@ -556,6 +578,7 @@
                               <td class="text-right"><?php echo $entry_price; ?></td>
                               <td class="text-right"><?php echo $entry_option_points; ?></td>
                               <td class="text-right"><?php echo $entry_weight; ?></td>
+                              <td class="text-right"><?php echo $entry_energy_value; ?></td>
                               <td></td>
                             </tr>
                           </thead>
@@ -1207,6 +1230,7 @@ $('input[name=\'option\']').autocomplete({
 			html += '        <td class="text-right"><?php echo $entry_price; ?></td>';
 			html += '        <td class="text-right"><?php echo $entry_option_points; ?></td>';
 			html += '        <td class="text-right"><?php echo $entry_weight; ?></td>';
+			html += '        <td class="text-right"><?php echo $entry_energy_value; ?></td>';
 			html += '        <td></td>';
 			html += '      </tr>';
 			html += '  	 </thead>';

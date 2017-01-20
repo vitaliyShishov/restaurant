@@ -68,28 +68,6 @@ class ControllerCommonCart extends Controller {
 				$image = '';
 			}
 
-			$option_data = array();
-
-			foreach ($product['option'] as $option) {
-				if ($option['type'] != 'file') {
-					$value = $option['value'];
-				} else {
-					$upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
-
-					if ($upload_info) {
-						$value = $upload_info['name'];
-					} else {
-						$value = '';
-					}
-				}
-
-				$option_data[] = array(
-					'name'  => $option['name'],
-					'value' => (utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value),
-					'type'  => $option['type']
-				);
-			}
-
 			// Display prices
 			if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
 				$unit_price = $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'));
@@ -102,12 +80,9 @@ class ControllerCommonCart extends Controller {
 			}
 
 			$data['products'][] = array(
-				'cart_id'   => $product['cart_id'],
 				'thumb'     => $image,
 				'name'      => $product['name'],
 				'model'     => $product['model'],
-				'option'    => $option_data,
-				'recurring' => ($product['recurring'] ? $product['recurring']['name'] : ''),
 				'quantity'  => $product['quantity'],
 				'price'     => $price,
 				'total'     => $total,

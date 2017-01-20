@@ -1,190 +1,195 @@
 ;
 (function () {
 
-    var step_size = 300; /* Amount of scrolling pictures */
+    var CustomScrollSettings = {
+        wrapper_selector: '.scroll_container_wrapper',
+        container_selector: '.scroll_container',
+        container_step_size: 300,
+        /* Amount of scrolling pictures */
+        runner_step: 0,
+        runner_marker: true,
+        runner_selector: '.scroll_runner',
+        step: 0,
+    };
 
-    /* Define scroll container */
 
-    var container;
+    function addScrollListeners() {
+        var listeners = ['wheel', 'keydown', 'touchstart', 'touchmove', 'touchend'];
+        for (var i = 0; i < listeners.length; i++) {
+            window.addEventListener(listeners[i], function (e) {
+                pageScroll(e);
+            })
+        }
+    };
 
-    function defineScrollContainer(e) {
-        if (document.querySelector('.scroll_container')) {
-            container = e.target;
-            while (!container.classList.contains('scroll_container')) {
-                if (container.tagName == 'BODY') {
-                    break
+
+    function pageScroll(e) {
+        CustomScrollSettings.direction = ScrollDirection.defineScrollDirection(e);
+        ElementsMoving.containerMove();
+        ElementsMoving.runnerMove();
+    }
+
+
+    var ElementsDefinition = {
+
+        container: function () {
+            return document.querySelector(CustomScrollSettings.container_selector)
+        },
+
+        thumb: function () {
+            return this.container().parentElement.querySelector(CustomScrollSettings.runner_selector)
+        },
+
+    }
+
+    var ElementsSizes = {
+
+        wrapper_height: function (elem) {
+            return elem.parentElement.offsetHeight;
+        },
+
+        container_height: function (elem) {
+            return elem.offsetHeight;
+        },
+
+        container_step_size: function () {
+            return (100 * CustomScrollSettings.container_step_size / this.container_height(ElementsDefinition.container()))
+        },
+
+        runner_step_size: function () {
+            return this.container_step_size()
+        },
+
+        setRunnerSize: function () {
+            container = ElementsDefinition.container();
+            ElementsDefinition.thumb().style.height = 100 / this.container_height(container) * this.wrapper_height(container) + "%";
+        },
+
+    }
+
+
+    var ScrollDirection = {
+
+        getKeyCode: function (e) {
+            if (e.keyCode == 40) {
+                return 'down'
+            } else if (e.keyCode == 38) {
+                return 'up'
+            }
+        },
+
+        getTouchCoord: function (e) {
+            return e.touches[0].clientY
+        },
+
+        getSwipeDirection: function (e) {
+            if (e.type == 'touchstart') {
+                this.firstCoord = this.getTouchCoord(e);
+            } else if (e.type == 'touchmove') {
+                this.lastCoord = this.getTouchCoord(e);
+            } else if (e.type == 'touchend') {
+                if (this.lastCoord - this.firstCoord > 10) {
+                    return 'up';
+                } else if (this.lastCoord - this.firstCoord < -10) {
+                    return 'down';
                 }
-                container = container.parentElement;
-
-
-
             }
-        }
-    }
+        },
 
-    /* Define container height */
-
-    function defineContainerHeight(elem) {
-        return elem.offsetHeight;
-    }
-
-    /* Define wrapper height */
-
-    function defineWrapperHeight(elem) {
-        return elem.parentElement.offsetHeight;
-    }
-
-
-
-
-    var containers = document.querySelectorAll('.scroll_container');
-
-    for (var i = 0; i < containers.length; i++) {
-
-        // Set size of scroll runner 
-
-        var runner = containers[i].parentElement.querySelector('.scroll_runner');
-
-        function setRunnerHeight() {
-            runner.style.height = 100 / defineContainerHeight(containers[i]) * defineWrapperHeight(containers[i]) + "%";
-        }
-
-        setRunnerHeight()
-    }
-
-
-
-    /* Set runner sizes on all containers 
-          
-          var containers = document.querySelectorAll('.scroll_container');
-
-        for (var i = 0; i < containers.length; i++) {
-
-            // Set size of scroll runner 
-
-            var runner = containers[i].parentElement.querySelector('.scroll_runner');
-
-            function setRunnerHeight() {
-                runner.style.height = 100 / defineContainerHeight(containers[i]) * defineWrapperHeight(containers[i]) + "%";
+        getWheelDirection: function (e) {
+            if (e.deltaY > 0) {
+                return 'down'
+            } else if (e.deltaY < 0) {
+                return 'up'
             }
+        },
 
-            setRunnerHeight()
-        }*/
-
-
-
-
-    /* Manage container */
-
-    var step = 0;
-
-    function containerMove(step_size) {
-        if (direction == 'to_top') { //-
-            if (defineContainerHeight(container) - defineWrapperHeight(container) + step > step_size) { //-  
-                runner_marker = true;
-                step -= step_size;
-                container.style.transform = "translateY(" + step + "px)";
-            } else {
-                runner_marker = false;
-                container.style.transform = "translateY(-" + (defineContainerHeight(container) - defineWrapperHeight(container)) + "px)";
+        defineScrollDirection: function (e) {
+            if (e.type == "keydown") {
+                return this.getKeyCode(e);
+            } else if (e.type == "touchstart" || e.type == "touchmove" || e.type == "touchend") {
+                return this.getSwipeDirection(e);
+            } else if (e.type == "wheel") {
+                return this.getWheelDirection(e);
             }
-        } else if (direction == 'to_bottom') { //+
-            if (step + step_size < 0) {
-                runner_marker = true;
-                step += step_size;
-                container.style.transform = "translateY(" + step + "px)";
-            } else {
-                runner_marker = false;
-                step = 0;
-                container.style.transform = "translateY(" + step + "px)";
-            }
-        }
-    }
-
-
-    /* Manage scroll runner */
-
-    var runner_step = 0,
-        runner_marker = true;
-
-    function runnerMove(step_size) {
-
-        var runner = container.parentElement.querySelector('.scroll_runner'),
-            runner_step_size = 100 / defineContainerHeight(container) * step_size;
-
-        if (direction == 'to_top') { //-
-            if (runner_marker) {
-                runner_step += runner_step_size;
-                runner.style.top = runner_step + "%";
-            } else {
-                runner_step = (100 - parseFloat(runner.style.height));
-                runner.style.top = runner_step + "%";
-            }
-        } else if (direction == 'to_bottom') { //+
-            if (runner_marker) {
-                runner_step -= runner_step_size;
-                runner.style.top = runner_step + "%";
-            } else {
-                runner_step = 0;
-                runner.style.top = runner_step + "%";
-            }
-        }
-    }
-
-
-    /* Catch touch */
-
-    function containerTouch() {
-
-        document.addEventListener('touchstart', takeCoords);
-        document.addEventListener('touchmove', takeCoords);
-        document.addEventListener('touchend', takeCoords);
+        },
 
     }
 
 
+    var ElementsMoving = {
 
-    var x1, x2;
 
-    function takeCoords(e) {
+        runnerMove: function () {
 
-        if ($('.scroll_container').height()) {
-            defineScrollContainer(e);
+            var direction = CustomScrollSettings.direction,
+                step_size = ElementsSizes.container_step_size(),
+                runner_marker = CustomScrollSettings.runner_marker,
+                thumb = ElementsDefinition.thumb(),
+                runner_step_size = ElementsSizes.runner_step_size();
 
-            if (e.type == "touchstart") {
-                x1 = e.touches[0].clientY;
-            } else if (e.type == "touchmove") {
-                x2 = e.touches[0].clientY;
-            } else if (e.type == "touchend") {
-                calcTouchDifference(e);
+
+            if (direction == 'down') { //-
+                if (runner_marker) {
+                    CustomScrollSettings.runner_step += runner_step_size;
+                    thumb.style.top = CustomScrollSettings.runner_step + "%";
+                } else {
+                    CustomScrollSettings.runner_step = (100 - parseFloat(thumb.style.height));
+                    thumb.style.top = CustomScrollSettings.runner_step + "%";
+                }
+            } else if (direction == 'up') { //+
+                if (runner_marker) {
+                    CustomScrollSettings.runner_step -= runner_step_size;
+                    thumb.style.top = CustomScrollSettings.runner_step + "%";
+                } else {
+                    CustomScrollSettings.runner_step = 0;
+                    thumb.style.top = CustomScrollSettings.runner_step + "%";
+                }
             }
-        }
+        },
+
+
+        containerMove: function () {
+            var direction = CustomScrollSettings.direction,
+                step_size = CustomScrollSettings.container_step_size,
+                container = ElementsDefinition.container(),
+                wrapper_height = ElementsSizes.wrapper_height(container),
+                container_height = ElementsSizes.container_height(container);
+
+            if (direction == 'down') {
+                if (container_height - wrapper_height + CustomScrollSettings.step > step_size) { //-  
+                    CustomScrollSettings.runner_marker = true;
+                    CustomScrollSettings.step -= step_size;
+                    container.style.transform = "translateY(" + CustomScrollSettings.step + "px)";
+                } else {
+                    CustomScrollSettings.runner_marker = false;
+                    container.style.transform = "translateY(-" + (container_height - wrapper_height) + "px)";
+                }
+            } else if (direction == 'up') {
+                if (CustomScrollSettings.step + step_size < 0) {
+                    CustomScrollSettings.runner_marker = true;
+                    CustomScrollSettings.step += step_size;
+                    container.style.transform = "translateY(" + CustomScrollSettings.step + "px)";
+                } else {
+                    CustomScrollSettings.runner_marker = false;
+                    CustomScrollSettings.step = 0;
+                    container.style.transform = "translateY(" + CustomScrollSettings.step + "px)";
+                }
+            }
+        },
+
     }
 
-    var direction;
-
-    function calcTouchDifference(e) {
-
-        direction = null;
-        var difference = x1 - x2;
-
-        if (x1 > x2 && difference > 10 && x2 !== 0) {
-            direction = 'to_top';
-            x1 = 0;
-            x2 = 0;
-        } else if (x2 > x1 && difference < -10) {
-            direction = 'to_bottom';
-            x1 = 0;
-            x2 = 0;
-        }
 
 
-        if (direction !== null) {
-            containerMove(step_size);
-            runnerMove(step_size);
-        }
-    }
 
-    containerTouch()
+
+    ElementsSizes.setRunnerSize();
+
+    addScrollListeners();
+
+
+
+
 
 })();

@@ -1,7 +1,11 @@
 .preloader {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    position: absolute;
+    height: 100vh;
+    opacity: 1;
+    // transition: 0.5s;
+    z-index: 2;
     .preloader_header {
         position: relative;
         width: 100%;
@@ -26,6 +30,10 @@
             image: url(../images/pattern_biege.jpg);
             repeat: repeat-x;
             size: auto 100%;
+        }
+        .preloader_wait {
+            position: absolute;
+            width: 100%;
         }
         .preloader_circle {
             padding-top: 60%;
@@ -52,6 +60,8 @@
             flex-direction: column;
             justify-content: space-between;
             flex-grow: 1;
+            opacity: 0;
+            transition: 0.5s;
             .select_table_title {
                 padding-top: 150 * $px;
                 text-align: center;
@@ -92,19 +102,7 @@
                     border: none;
                     font-size: $fs_60;
                     .lang {
-                        position: relative;
-                        height: 100%;
-                        padding-left: 60 * $px;
-                        line-height: 100 * $px;
-                        font-size: $fs_30;
-                        img {
-                            position: absolute;
-                            top: 50%;
-                            left: 0;
-                            transform: translateY(-50%);
-                            width: 43 * $px;
-                            height: auto;
-                        }
+                        @extend %lang;
                     }
                     .down_arrow {
                         @extend %down_arrow;
@@ -114,13 +112,14 @@
                     }
                 }
             }
-            .select_table_next {
+            .select_table_next {position: relative;
                 height: 140 * $px;
                 background: {
                     image: url(../images/pattern_red.jpg);
                     repeat: repeat-x;
                     size: auto 100%;
                 }
+                overflow: hidden;
                 .next {
                     position: relative;
                     padding-right: 85 * $px;
@@ -135,6 +134,43 @@
                         right: 20 * $px;
                         top: 58 * $px;
                     }
+                }
+                .next_animation {position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    background-image: linear-gradient(45deg, transparent 20%, $light_beige 50%, transparent 80%);
+                    animation-name: next_button_line;
+                    animation-duration: 4s;
+                    animation-iteration-count: infinite;
+                    animation-timing-function: linear;
+                  
+                    
+                }
+            }
+        }
+    }
+    .pop_langs {
+        @extend %pop;
+        opacity: 0;
+        display: none;
+        transition: 0.5s;
+        .internal_lang_wrapper {
+            display: table;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: auto;
+            .lang {
+                @extend %lang;
+                width: 300 * $px;
+                padding-left: 90 * $px;
+                border: 1 * $px solid $deep_beige;
+                background-color: $light_beige;
+                
+                img {
+                    left: 30 * $px;
                 }
             }
         }

@@ -96,6 +96,11 @@
                     <?php } else { ?>
                     <a href="<?php echo $sort_weight; ?>"><?php echo $column_weight; ?></a>
                     <?php } ?></td>
+                  <td class="text-left"><?php if ($sort == 'p.energy_value') { ?>
+                    <a href="<?php echo $sort_energy_value; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_energy_value; ?></a>
+                    <?php } else { ?>
+                    <a href="<?php echo $sort_energy_value; ?>"><?php echo $column_energy_value; ?></a>
+                    <?php } ?></td>
                   <td class="text-right"><?php if ($sort == 'p.price') { ?>
                     <a href="<?php echo $sort_price; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_price; ?></a>
                     <?php } else { ?>
@@ -128,6 +133,9 @@
                   <td class="text-left" style="display: none;"><?php echo $product['model']; ?></td>
                   <td class="text-left"><?php if ($product['weight']) {
                    echo $product['weight'];} 
+                   else echo "0"; ?></td>
+                  <td class="text-left"><?php if ($product['energy_value']) {
+                   echo $product['energy_value'];} 
                    else echo "0"; ?></td>
                   <td class="text-right"><?php if ($product['special']) { ?>
                     <span style="text-decoration: line-through;"><?php echo $product['price']; ?></span><br/>

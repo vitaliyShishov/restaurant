@@ -1,0 +1,394 @@
+@font-face {
+  font-family: Light;
+  src: url(../fonts/GothamProLight.ttf); }
+@font-face {
+  font-family: Regular;
+  src: url(../fonts/GothamProRegular.ttf); }
+@font-face {
+  font-family: Medium;
+  src: url(../fonts/GothamProMedium.ttf); }
+/* --- Font Sizes --- */
+/* --- Blocks Sizes --- */
+/* --- Colors --- */
+/* --- Features --- */
+/* --- Classes --- */
+section.order .info .manage_info:after, section.order .info .order_info:after, section.archive .stat_info:after, .stat_wrapper:after {
+  content: '';
+  display: block;
+  clear: both; }
+
+section.order .info .manage_info .payment_info.cash:after, section.order .info .manage_info .payment_info.card:after, section.order .info .manage_info .time_info:after, section.order .comment .date:after, section.stat_table:before {
+  content: '';
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center; }
+
+html {
+  font-size: 1px; }
+  @media screen and (max-width: 1200px) {
+    html {
+      font-size: 0.8px; } }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #f1e2cc;
+  font-family: Regular; }
+
+* {
+  box-sizing: border-box; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  font-size: 14rem; }
+
+.wrapper {
+  margin: auto;
+  width: 1200px; }
+  @media screen and (max-width: 1200px) {
+    .wrapper {
+      width: 700px; } }
+
+header {
+  height: 120px;
+  background-image: url(../images/triangle_line.jpg);
+  background-repeat: repeat-x;
+  background-size: auto 17px;
+  background-position: top; }
+  header .logo {
+    width: auto;
+    height: 110px;
+    margin-right: 20px;
+    padding-top: 5px;
+    float: left; }
+  header .main_h {
+    display: inline-block;
+    padding-top: 60px;
+    padding-bottom: 40px;
+    text-transform: uppercase;
+    font-family: Medium;
+    font-size: 18rem; }
+  header .user {
+    padding-top: 50px;
+    float: right; }
+    header .user .user_icon,
+    header .user .user_exit {
+      width: 25px;
+      height: auto; }
+    header .user .user_name {
+      position: relative;
+      top: -5px;
+      display: inline-block;
+      padding: 0 10px;
+      font-size: 16rem; }
+
+main {
+  height: calc(100% - 120px);
+  padding-bottom: 55px; }
+  main .wrapper {
+    background-color: white;
+    height: 100%;
+    -webkit-box-shadow: 0px 4px 20px -3px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 4px 20px -3px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 4px 20px -3px rgba(0, 0, 0, 0.75); }
+  main .content_header {
+    height: 65px;
+    border-bottom: 1px solid #d3d3d3; }
+    main .content_header .tab, main .content_header .orders_amount {
+      height: 100%;
+      padding: 0 30px;
+      line-height: 65px;
+      font-size: 14rem; }
+    main .content_header .tab {
+      float: left; }
+      main .content_header .tab.active {
+        background-color: #ae2629;
+        color: white;
+        font-family: Medium;
+        font-size: 16rem; }
+    main .content_header .orders_amount {
+      float: right; }
+      main .content_header .orders_amount span {
+        font-family: Medium; }
+
+.content {
+  position: relative;
+  height: calc(100% - 65px);
+  overflow: hidden; }
+
+.tab_1_content,
+.tab_2_content,
+.tab_3_content {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  display: none; }
+  .tab_1_content.active,
+  .tab_2_content.active,
+  .tab_3_content.active {
+    display: block; }
+
+.scroll-bar {
+  position: absolute !important;
+  height: 95% !important;
+  width: 4px !important;
+  top: 6px !important;
+  right: 6px !important;
+  background-color: #d3d3d3 !important;
+  z-index: 1; }
+
+.thumb {
+  background-color: #ae2629; }
+
+.overview {
+  width: 100%; }
+
+.scroll_container_wrapper {
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden; }
+
+.scroll_container {
+  box-sizing: border-box;
+  /*custom*/ }
+
+.scroll_block {
+  position: absolute;
+  /*custom*/
+  height: 95%;
+  width: 4px;
+  top: 6px;
+  right: 6px;
+  background-color: #d3d3d3;
+  z-index: 11; }
+
+.scroll_runner {
+  position: relative;
+  top: 0;
+  /*custom*/
+  height: 30px;
+  background-color: #ae2629; }
+
+.scroll_container,
+.scroll_runner {
+  /*scroll speed*/
+  transition: 0.5s; }
+
+section.order {
+  overflow: hidden; }
+  section.order > * {
+    padding: 20px; }
+  section.order .info .manage_info {
+    padding-bottom: 20px; }
+    section.order .info .manage_info .general_info {
+      float: left;
+      padding-right: 20px; }
+      section.order .info .manage_info .general_info .table_num {
+        font-family: Medium;
+        font-size: 24rem; }
+      section.order .info .manage_info .general_info .order_id {
+        font-size: 16rem; }
+    section.order .info .manage_info .payment_info {
+      position: relative;
+      float: left;
+      padding: 10px 60px 10px 10px;
+      border-radius: 10px;
+      border: 1px solid #d3d3d3; }
+      section.order .info .manage_info .payment_info > * {
+        display: inline-block; }
+      section.order .info .manage_info .payment_info .price {
+        padding: 0 10px;
+        font-family: Medium;
+        font-size: 24rem; }
+      section.order .info .manage_info .payment_info .payment_status {
+        position: relative;
+        top: -3px;
+        font-size: 16rem; }
+      section.order .info .manage_info .payment_info.cash:after, section.order .info .manage_info .payment_info.card:after, section.order .info .manage_info .payment_info.done:after {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%); }
+      section.order .info .manage_info .payment_info.cash:after {
+        width: 23px;
+        height: 22px;
+        background-image: url(../images/icon_cash.png); }
+      section.order .info .manage_info .payment_info.card:after {
+        width: 25px;
+        height: 19px;
+        background-image: url(../images/icon_card.png); }
+      section.order .info .manage_info .payment_info.done {
+        border: none;
+        background-color: #3daf75;
+        color: white; }
+        section.order .info .manage_info .payment_info.done:after {
+          content: '\2713';
+          font-size: 24rem;
+          color: #f1e2cc; }
+    section.order .info .manage_info .time_info {
+      position: relative;
+      float: right;
+      margin-right: 20px; }
+      section.order .info .manage_info .time_info > div > * {
+        padding-right: 45px;
+        text-align: right; }
+      section.order .info .manage_info .time_info > div .time {
+        font-family: Medium;
+        font-size: 24rem; }
+      section.order .info .manage_info .time_info > div .time_comment {
+        position: relative;
+        font-size: 14rem; }
+      section.order .info .manage_info .time_info:after {
+        position: absolute;
+        top: 2px;
+        right: 0;
+        width: 39px;
+        height: 41px;
+        background-image: url(../images/icon_big_clock.png); }
+    section.order .info .manage_info .close_order_button {
+      float: right;
+      padding: 15px;
+      border-radius: 10px;
+      background-color: #ae2629;
+      color: #f1e2cc;
+      font-size: 16rem; }
+  section.order .info .order_info {
+    margin: -5px; }
+    section.order .info .order_info .single_order {
+      float: left;
+      width: 282.5px;
+      height: 75px;
+      margin: 10px 5px;
+      padding: 15px;
+      border: 1px solid #d3d3d3;
+      border-radius: 10px;
+      font-family: Medium; }
+      section.order .info .order_info .single_order .product_name {
+        display: inline-block;
+        width: 80%;
+        line-height: 130%;
+        font-size: 16rem; }
+      section.order .info .order_info .single_order .product_amount {
+        float: right;
+        display: block;
+        width: 30px;
+        height: 100%;
+        text-align: center;
+        line-height: 250%;
+        font-size: 16rem; }
+      section.order .info .order_info .single_order.active {
+        position: relative;
+        border: none;
+        background-color: #3daf75;
+        color: white; }
+        section.order .info .order_info .single_order.active:after {
+          content: '\2713';
+          position: absolute;
+          top: 50%;
+          right: 20px;
+          transform: translateY(-50%);
+          font-size: 24rem;
+          color: #f1e2cc; }
+        section.order .info .order_info .single_order.active .product_amount {
+          display: none; }
+  section.order .comment {
+    position: relative;
+    background-color: #ffcaa3; }
+    section.order .comment:before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      border: 20px solid rgba(255, 255, 255, 0);
+      border-bottom: 20px solid #ffcaa3;
+      border-left: 20px solid #ffcaa3; }
+    section.order .comment .text {
+      width: 90%;
+      font-size: 14rem; }
+      @media screen and (max-width: 1200px) {
+        section.order .comment .text {
+          width: 80%; } }
+    section.order .comment .date {
+      position: absolute;
+      top: 0;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      padding-right: 35px;
+      font-size: 14rem; }
+      section.order .comment .date:after {
+        position: absolute;
+        right: 0;
+        top: -25%;
+        width: 25px;
+        height: 25px;
+        background-image: url(../images/icon_clock.png); }
+
+section.archive {
+  margin: 10px 20px 10px 10px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #ebebeb;
+  font-size: 14rem; }
+  section.archive .stat_header {
+    padding-bottom: 15px;
+    font-family: Medium; }
+  section.archive .stat_info {
+    padding-bottom: 20px; }
+    section.archive .stat_info .general_info {
+      float: left; }
+      section.archive .stat_info .general_info > span {
+        font-family: Medium; }
+      section.archive .stat_info .general_info .order_id {
+        padding-bottom: 10px;
+        font-family: Medium;
+        font-size: 16rem; }
+    section.archive .stat_info .time_info {
+      float: right;
+      text-align: right;
+      font-family: Medium; }
+      section.archive .stat_info .time_info p {
+        padding-bottom: 10px; }
+  section.archive .stat_order {
+    padding-bottom: 10px; }
+
+.stat_wrapper {
+  margin: 0 15px 0 5px;
+  overflow: hidden; }
+
+section.stat_table {
+  float: left;
+  position: relative;
+  width: 295px;
+  padding: 15px; }
+  section.stat_table .general_info {
+    padding-bottom: 10px;
+    font-family: Medium;
+    font-size: 18rem; }
+    section.stat_table .general_info .proceeds {
+      float: right; }
+  section.stat_table .order_amount {
+    padding-bottom: 10px;
+    font-size: 16rem; }
+  section.stat_table .time_borders {
+    line-height: 150%;
+    font-size: 14rem; }
+  section.stat_table:before {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: -51px;
+    left: -51px;
+    background-image: url(../images/border_cross.png); }
+
+/*# sourceMappingURL=style_admin.css.map */

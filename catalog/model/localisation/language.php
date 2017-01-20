@@ -32,4 +32,18 @@ class ModelLocalisationLanguage extends Model {
 
 		return $language_data;
 	}
+
+	public function getLanguageByCode() {
+
+        if (!empty($this->session->data['language'])) {
+            $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "language 
+                WHERE code = '" . $this->db->escape($this->session->data['language']) . "'");
+
+            $result = $query->row;
+        } else {
+            $result = $this->getLanguage($this->config->get('config_language_id'));
+        }
+
+        return $result;
+    }
 }

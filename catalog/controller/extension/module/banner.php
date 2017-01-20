@@ -1,14 +1,15 @@
 <?php
 class ControllerExtensionModuleBanner extends Controller {
 	public function index($setting) {
+        $this->load->language('extension/module/banner');
+
+        $data['text_more'] = $this->language->get('text_more');
+
 		static $module = 0;
 
 		$this->load->model('design/banner');
 		$this->load->model('tool/image');
 
-		$this->document->addStyle('catalog/view/javascript/jquery/owl-carousel/owl.carousel.css');
-		$this->document->addStyle('catalog/view/javascript/jquery/owl-carousel/owl.transitions.css');
-		$this->document->addScript('catalog/view/javascript/jquery/owl-carousel/owl.carousel.min.js');
 
 		$data['banners'] = array();
 

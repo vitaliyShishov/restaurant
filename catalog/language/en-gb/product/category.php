@@ -22,3 +22,4 @@ $_['text_rating_desc']  = 'Rating (Highest)';
 $_['text_model_asc']    = 'Model (A - Z)';
 $_['text_model_desc']   = 'Model (Z - A)';
 $_['text_limit']        = 'Show:';
+$_['text_turn_screen']  = 'Please, turn your screen to portrait layout or use mobile phone';

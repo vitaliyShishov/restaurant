@@ -146,4 +146,59 @@ class ControllerCheckoutCheckout extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+
+	public function addOrder() {
+	    $this->load->model('checkout/order');
+
+	    $order_data = array();
+
+        if (isset($this->request->post['products'])) {
+            $products =    $this->request->post['products'];
+        } else {
+            $products = $this->cart->getProducts();
+        }
+
+
+        if (isset($this->request->post['filters'])) {
+            $filters = serialize($this->request->post['filters']);
+        } else {
+            $filters = null;
+        }
+
+        if(isset($this->request->post['method'])) {
+            $order_data['method'] = $this->request->post['method'];
+        } else {
+            $order_data['method'] = 1;
+        }
+
+        if(isset($this->session->data['table_id'])) {
+            $order_data['table_id'] = $this->session->data['table_id'];
+        } else {
+            $order_data['table_id'] = 0;
+        }
+
+        $order_data['total'] = $this->cart->getTotal();
+
+        foreach ($products as $product) {
+
+            $order_data['products'][] = array(
+                'product_id' => isset($product['product_id']) ? $product['product_id'] : $product['id'],
+                'name'       => $product['name'],
+                'model'      => '',
+                'quantity'   => $product['quantity'],
+                'price'      => (float)$product['price'],
+                'total'      => (float)$product['total'],
+                'comment'    => isset($product['comment']) ? $product['comment'] : '',
+                'tax'        => '',
+                'reward'     => ''
+            );
+        }
+
+        $this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data, $filters);
+
+        $json['success'] = $this->url->link('checkout/success');
+
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 }

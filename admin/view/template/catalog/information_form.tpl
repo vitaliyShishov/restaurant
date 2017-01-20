@@ -28,7 +28,7 @@
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-general" data-toggle="tab"><?php echo $tab_general; ?></a></li>
             <li><a href="#tab-data" data-toggle="tab"><?php echo $tab_data; ?></a></li>
-            <li><a href="#tab-design" data-toggle="tab"><?php echo $tab_design; ?></a></li>
+            <li style="display: none"><a href="#tab-design" data-toggle="tab"><?php echo $tab_design; ?></a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab-general">
@@ -67,13 +67,13 @@
                       <?php } ?>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" style="display: none">
                     <label class="col-sm-2 control-label" for="input-meta-description<?php echo $language['language_id']; ?>"><?php echo $entry_meta_description; ?></label>
                     <div class="col-sm-10">
                       <textarea name="information_description[<?php echo $language['language_id']; ?>][meta_description]" rows="5" placeholder="<?php echo $entry_meta_description; ?>" id="input-meta-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($information_description[$language['language_id']]) ? $information_description[$language['language_id']]['meta_description'] : ''; ?></textarea>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" style="display: none">
                     <label class="col-sm-2 control-label" for="input-meta-keyword<?php echo $language['language_id']; ?>"><?php echo $entry_meta_keyword; ?></label>
                     <div class="col-sm-10">
                       <textarea name="information_description[<?php echo $language['language_id']; ?>][meta_keyword]" rows="5" placeholder="<?php echo $entry_meta_keyword; ?>" id="input-meta-keyword<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($information_description[$language['language_id']]) ? $information_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea>
@@ -85,6 +85,16 @@
             </div>
             <div class="tab-pane" id="tab-data">
               <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-sort-order"><?php echo $entry_image; ?></label>
+                <div class="col-sm-10">
+                  <a href=""
+                     id="thumb-image" data-toggle="image"
+                     class="img-thumbnail"><img src="<?php echo $thumb; ?>"  />
+                  </a>
+                  <input type="hidden" name="image" value="<?php echo $image; ?>" id="input-image" />
+                </div>
+              </div>
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label"><?php echo $entry_store; ?></label>
                 <div class="col-sm-10">
                   <div class="well well-sm" style="height: 150px; overflow: auto;">
@@ -115,7 +125,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-keyword"><span data-toggle="tooltip" title="<?php echo $help_keyword; ?>"><?php echo $entry_keyword; ?></span></label>
                 <div class="col-sm-10">
                   <input type="text" name="keyword" value="<?php echo $keyword; ?>" placeholder="<?php echo $entry_keyword; ?>" id="input-keyword" class="form-control" />
@@ -124,7 +134,7 @@
                   <?php } ?>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-bottom"><span data-toggle="tooltip" title="<?php echo $help_bottom; ?>"><?php echo $entry_bottom; ?></span></label>
                 <div class="col-sm-10">
                   <div class="checkbox">
@@ -158,8 +168,9 @@
                   <input type="text" name="sort_order" value="<?php echo $sort_order; ?>" placeholder="<?php echo $entry_sort_order; ?>" id="input-sort-order" class="form-control" />
                 </div>
               </div>
+
             </div>
-            <div class="tab-pane" id="tab-design">
+            <div style="display: none" class="tab-pane" id="tab-design">
               <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                   <thead>

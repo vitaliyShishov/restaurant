@@ -6,10 +6,10 @@ class ModelCatalogInformation extends Model {
 		$information_id = $this->db->getLastId();
 
 		foreach ($data['information_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "information_description SET information_id = '" . (int)$information_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "', description = '" . $this->db->escape($value['description']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "information_description SET information_id = '" . (int)$information_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "', description = '" . $this->db->escape($value['description']) . "', image = '". $this->db->escape($data['image']) ."', meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
 		}
 
-		if (isset($data['information_store'])) {
+        if (isset($data['information_store'])) {
 			foreach ($data['information_store'] as $store_id) {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "information_to_store SET information_id = '" . (int)$information_id . "', store_id = '" . (int)$store_id . "'");
 			}
@@ -36,10 +36,10 @@ class ModelCatalogInformation extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "information_description WHERE information_id = '" . (int)$information_id . "'");
 
 		foreach ($data['information_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "information_description SET information_id = '" . (int)$information_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "', description = '" . $this->db->escape($value['description']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "information_description SET information_id = '" . (int)$information_id . "', language_id = '" . (int)$language_id . "', title = '" . $this->db->escape($value['title']) . "', description = '" . $this->db->escape($value['description']) . "', image = '". $this->db->escape($data['image']) ."', meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
 		}
 
-		$this->db->query("DELETE FROM " . DB_PREFIX . "information_to_store WHERE information_id = '" . (int)$information_id . "'");
+       	$this->db->query("DELETE FROM " . DB_PREFIX . "information_to_store WHERE information_id = '" . (int)$information_id . "'");
 
 		if (isset($data['information_store'])) {
 			foreach ($data['information_store'] as $store_id) {
@@ -140,14 +140,21 @@ class ModelCatalogInformation extends Model {
 			$information_description_data[$result['language_id']] = array(
 				'title'            => $result['title'],
 				'description'      => $result['description'],
+                'image'            => $result['image'],
 				'meta_title'       => $result['meta_title'],
 				'meta_description' => $result['meta_description'],
 				'meta_keyword'     => $result['meta_keyword']
 			);
 		}
-
 		return $information_description_data;
 	}
+
+    public function getInformationImage($information_id) {
+
+        $query = $this->db->query("SELECT DISTINCT image FROM " . DB_PREFIX . "information_description WHERE information_id = '" . (int)$information_id . "'");
+        //var_dump($query); die;
+        return $query->row['image'];
+    }
 
 	public function getInformationStores($information_id) {
 		$information_store_data = array();

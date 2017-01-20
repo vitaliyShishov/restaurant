@@ -2,8 +2,10 @@
 // Text
 $_['text_affiliate']                 = 'Affiliates';
 $_['text_api']                       = 'API';
-$_['text_attribute']                 = 'Attributes';
-$_['text_attribute_group']           = 'Attribute Groups';
+$_['text_attribute']                 = 'Ingredients';
+$_['text_attribute_group']           = 'Ingredient Groups';
+$_['text_allergen']                  = 'Allergens';
+$_['text_allergen_group']            = 'Allergen Groups';
 $_['text_backup']                    = 'Backup / Restore';
 $_['text_banner']                    = 'Banners';
 $_['text_catalog']                   = 'Catalog';

@@ -32,13 +32,13 @@ class ControllerCommonColumnLeft extends Controller {
 			// Level 2 can not have children
 			
 			// Menu
-			$data['menus'][] = array(
-				'id'       => 'menu-dashboard',
-				'icon'	   => 'fa-dashboard',
-				'name'	   => $this->language->get('text_dashboard'),
-				'href'     => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true),
-				'children' => array()
-			);
+//			$data['menus'][] = array(
+//				'id'       => 'menu-dashboard',
+//				'icon'	   => 'fa-dashboard',
+//				'name'	   => $this->language->get('text_dashboard'),
+//				'href'     => $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], true),
+//				'children' => array()
+//			);
 			
 			// Catalog
 			$catalog = array();
@@ -59,13 +59,13 @@ class ControllerCommonColumnLeft extends Controller {
 				);
 			}
 			
-			if ($this->user->hasPermission('access', 'catalog/recurring')) {
+			/*if ($this->user->hasPermission('access', 'catalog/recurring')) {
 				$catalog[] = array(
 					'name'	   => $this->language->get('text_recurring'),
 					'href'     => $this->url->link('catalog/recurring', 'token=' . $this->session->data['token'], true),
 					'children' => array()		
 				);
-			}
+			}*/
 			
 			if ($this->user->hasPermission('access', 'catalog/filter')) {
 				$catalog[] = array(
@@ -101,8 +101,42 @@ class ControllerCommonColumnLeft extends Controller {
 					'children' => $attribute
 				);
 			}
+                                                			
+			$allergen = array();
 			
-			if ($this->user->hasPermission('access', 'catalog/option')) {
+//			if ($this->user->hasPermission('access', 'catalog/allergen')) {
+//				$allergen[] = array(
+//					'name'     => $this->language->get('text_allergen'),
+//					'href'     => $this->url->link('catalog/allergen', 'token=' . $this->session->data['token'], true),
+//					'children' => array()
+//				);
+//			}
+			
+			if ($this->user->hasPermission('access', 'catalog/allergen_group')) {
+				$allergen[] = array(
+					'name'	   => $this->language->get('text_allergen_group'),
+					'href'     => $this->url->link('catalog/allergen_group', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			
+			if ($allergen) {
+				$catalog[] = array(
+					'name'	   => $this->language->get('text_allergen'),
+					'href'     => '',
+					'children' => $allergen
+				);
+			}
+
+                $data['menus'][] = array(
+                    'id'       => 'menu-statistic',
+                    'icon'	   => 'fa-bar-chart',
+                    'name'	   => 'Statistic',
+                    'href'     => $this->url->link('statistic/bill', 'token=' . $this->session->data['token'], true),
+                    'children' => array()
+                );
+
+			/*if ($this->user->hasPermission('access', 'catalog/option')) {
 				$catalog[] = array(
 					'name'	   => $this->language->get('text_option'),
 					'href'     => $this->url->link('catalog/option', 'token=' . $this->session->data['token'], true),
@@ -132,7 +166,7 @@ class ControllerCommonColumnLeft extends Controller {
 					'href'     => $this->url->link('catalog/review', 'token=' . $this->session->data['token'], true),
 					'children' => array()		
 				);		
-			}
+			}*/
 			
 			if ($this->user->hasPermission('access', 'catalog/information')) {		
 				$catalog[] = array(
@@ -151,8 +185,7 @@ class ControllerCommonColumnLeft extends Controller {
 					'children' => $catalog
 				);		
 			}
-			
-	
+                        
 			// Extension
 			$extension = array();
 			/*
@@ -164,13 +197,13 @@ class ControllerCommonColumnLeft extends Controller {
 				);					
 			}
 			*/
-			if ($this->user->hasPermission('access', 'extension/installer')) {		
+			/*if ($this->user->hasPermission('access', 'extension/installer')) {		
 				$extension[] = array(
 					'name'	   => $this->language->get('text_installer'),
 					'href'     => $this->url->link('extension/installer', 'token=' . $this->session->data['token'], true),
 					'children' => array()		
 				);					
-			}	
+			}*/	
 			
 			if ($this->user->hasPermission('access', 'extension/extension')) {		
 				$extension[] = array(
@@ -180,7 +213,7 @@ class ControllerCommonColumnLeft extends Controller {
 				);
 			}
 					
-			if ($this->user->hasPermission('access', 'extension/modification')) {
+			/*if ($this->user->hasPermission('access', 'extension/modification')) {
 				$extension[] = array(
 					'name'	   => $this->language->get('text_modification'),
 					'href'     => $this->url->link('extension/modification', 'token=' . $this->session->data['token'], true),
@@ -194,7 +227,7 @@ class ControllerCommonColumnLeft extends Controller {
 					'href'     => $this->url->link('extension/event', 'token=' . $this->session->data['token'], true),
 					'children' => array()		
 				);
-			}
+			}*/
 					
 			if ($extension) {					
 				$data['menus'][] = array(
@@ -261,7 +294,7 @@ class ControllerCommonColumnLeft extends Controller {
 			}
 			
 			// Sales
-			$sale = array();
+			/*$sale = array();
 			
 			if ($this->user->hasPermission('access', 'sale/order')) {
 				$sale[] = array(
@@ -322,10 +355,10 @@ class ControllerCommonColumnLeft extends Controller {
 					'href'     => '',
 					'children' => $sale
 				);
-			}
+			}*/
 			
 			// Customer
-			$customer = array();
+			/*$customer = array();
 			
 			if ($this->user->hasPermission('access', 'customer/customer')) {
 				$customer[] = array(
@@ -359,10 +392,10 @@ class ControllerCommonColumnLeft extends Controller {
 					'href'     => '',
 					'children' => $customer
 				);	
-			}
+			}*/
 			
 			// Marketing
-			$marketing = array();
+			/*$marketing = array();
 			
 			if ($this->user->hasPermission('access', 'marketing/marketing')) {
 				$marketing[] = array(
@@ -404,7 +437,7 @@ class ControllerCommonColumnLeft extends Controller {
 					'href'     => '',
 					'children' => $marketing
 				);	
-			}
+			}*/
 			
 			// System
 			$system = array();
@@ -436,13 +469,13 @@ class ControllerCommonColumnLeft extends Controller {
 				);	
 			}
 			
-			if ($this->user->hasPermission('access', 'user/api')) {		
+			/*if ($this->user->hasPermission('access', 'user/api')) {		
 				$user[] = array(
 					'name'	   => $this->language->get('text_api'),
 					'href'     => $this->url->link('user/api', 'token=' . $this->session->data['token'], true),
 					'children' => array()		
 				);	
-			}
+			}*/
 			
 			if ($user) {
 				$system[] = array(
@@ -463,13 +496,13 @@ class ControllerCommonColumnLeft extends Controller {
 				);	
 			}
 			
-			if ($this->user->hasPermission('access', 'localisation/language')) {
+			/*if ($this->user->hasPermission('access', 'localisation/language')) {
 				$localisation[] = array(
 					'name'	   => $this->language->get('text_language'),
 					'href'     => $this->url->link('localisation/language', 'token=' . $this->session->data['token'], true),
 					'children' => array()		
 				);
-			}
+			}*/
 			
 			if ($this->user->hasPermission('access', 'localisation/currency')) {
 				$localisation[] = array(
@@ -479,24 +512,24 @@ class ControllerCommonColumnLeft extends Controller {
 				);
 			}
 			
-			if ($this->user->hasPermission('access', 'localisation/stock_status')) {
+			/*if ($this->user->hasPermission('access', 'localisation/stock_status')) {
 				$localisation[] = array(
 					'name'	   => $this->language->get('text_stock_status'),
 					'href'     => $this->url->link('localisation/stock_status', 'token=' . $this->session->data['token'], true),
 					'children' => array()		
 				);
-			}
+			}*/
 			
-			if ($this->user->hasPermission('access', 'localisation/order_status')) {
+			/*if ($this->user->hasPermission('access', 'localisation/order_status')) {
 				$localisation[] = array(
 					'name'	   => $this->language->get('text_order_status'),
 					'href'     => $this->url->link('localisation/order_status', 'token=' . $this->session->data['token'], true),
 					'children' => array()		
 				);
-			}
+			}*/
 			
 			// Returns
-			$return = array();
+			/*$return = array();
 			
 			if ($this->user->hasPermission('access', 'localisation/return_status')) {
 				$return[] = array(
@@ -528,9 +561,9 @@ class ControllerCommonColumnLeft extends Controller {
 					'href'     => '',
 					'children' => $return		
 				);
-			}
+			}*/
 			
-			if ($this->user->hasPermission('access', 'localisation/country')) {
+			/*if ($this->user->hasPermission('access', 'localisation/country')) {
 				$localisation[] = array(
 					'name'	   => $this->language->get('text_country'),
 					'href'     => $this->url->link('localisation/country', 'token=' . $this->session->data['token'], true),
@@ -552,7 +585,7 @@ class ControllerCommonColumnLeft extends Controller {
 					'href'     => $this->url->link('localisation/geo_zone', 'token=' . $this->session->data['token'], true),
 					'children' => array()
 				);
-			}
+			}*/
 			
 			// Tax		
 			$tax = array();
@@ -581,13 +614,13 @@ class ControllerCommonColumnLeft extends Controller {
 				);
 			}
 			
-			if ($this->user->hasPermission('access', 'localisation/length_class')) {
+			/*if ($this->user->hasPermission('access', 'localisation/length_class')) {
 				$localisation[] = array(
 					'name'	   => $this->language->get('text_length_class'),
 					'href'     => $this->url->link('localisation/length_class', 'token=' . $this->session->data['token'], true),
 					'children' => array()
 				);
-			}
+			}*/
 			
 			if ($this->user->hasPermission('access', 'localisation/weight_class')) {
 				$localisation[] = array(
@@ -606,7 +639,7 @@ class ControllerCommonColumnLeft extends Controller {
 			}
 			
 			// Tools	
-			$tool = array();
+			/*$tool = array();
 			
 			if ($this->user->hasPermission('access', 'tool/upload')) {
 				$tool[] = array(
@@ -638,7 +671,7 @@ class ControllerCommonColumnLeft extends Controller {
 					'href'     => '',
 					'children' => $tool	
 				);
-			}
+			}*/
 			
 			if ($system) {
 				$data['menus'][] = array(
@@ -651,7 +684,7 @@ class ControllerCommonColumnLeft extends Controller {
 			}
 			
 			// Report
-			$report = array();
+			/*$report = array();
 			
 			// Report Sales
 			$report_sale = array();	
@@ -833,7 +866,7 @@ class ControllerCommonColumnLeft extends Controller {
 					'href'     => '',
 					'children' => $report
 				);	
-			}		
+			}*/		
 			
 			// Stats
 			$data['text_complete_status'] = $this->language->get('text_complete_status');

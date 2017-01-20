@@ -36,9 +36,11 @@ class ModelCatalogProduct extends Model {
 				'tax_class_id'     => $query->row['tax_class_id'],
 				'date_available'   => $query->row['date_available'],
 				'weight'           => $query->row['weight'],
-				'weight_class_id'  => $query->row['weight_class_id'],
-				'length'           => $query->row['length'],
-				'width'            => $query->row['width'],
+                'weight_class_id'  => $query->row['weight_class_id'],
+                'is_vegan'         => $query->row['is_vegan'],
+                'energy_value'     => $query->row['energy_value'],
+                'length'           => $query->row['length'],
+                'width'            => $query->row['width'],
 				'height'           => $query->row['height'],
 				'length_class_id'  => $query->row['length_class_id'],
 				'subtract'         => $query->row['subtract'],
@@ -56,26 +58,23 @@ class ModelCatalogProduct extends Model {
 		}
 	}
 
-	public function getProducts($data = array()) {
-		$sql = "SELECT p.product_id, (SELECT AVG(rating) AS total FROM " . DB_PREFIX . "review r1 WHERE r1.product_id = p.product_id AND r1.status = '1' GROUP BY r1.product_id) AS rating, (SELECT price FROM " . DB_PREFIX . "product_discount pd2 WHERE pd2.product_id = p.product_id AND pd2.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND pd2.quantity = '1' AND ((pd2.date_start = '0000-00-00' OR pd2.date_start < NOW()) AND (pd2.date_end = '0000-00-00' OR pd2.date_end > NOW())) ORDER BY pd2.priority ASC, pd2.price ASC LIMIT 1) AS discount, (SELECT price FROM " . DB_PREFIX . "product_special ps WHERE ps.product_id = p.product_id AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())) ORDER BY ps.priority ASC, ps.price ASC LIMIT 1) AS special";
+	public function getProducts($data = array(), $category_id = null) {
+		$sql = "SELECT p.product_id, 
+                 (SELECT price FROM " . DB_PREFIX . "product_special ps 
+                     WHERE ps.product_id = p.product_id 
+                     AND ps.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' 
+                     AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) 
+                     AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())) ORDER 
+                     BY ps.priority ASC, ps.price ASC LIMIT 1) AS special";
 
-		if (!empty($data['filter_category_id'])) {
-			if (!empty($data['filter_sub_category'])) {
-				$sql .= " FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (cp.category_id = p2c.category_id)";
-			} else {
-				$sql .= " FROM " . DB_PREFIX . "product_to_category p2c";
-			}
-
-			if (!empty($data['filter_filter'])) {
-				$sql .= " LEFT JOIN " . DB_PREFIX . "product_filter pf ON (p2c.product_id = pf.product_id) LEFT JOIN " . DB_PREFIX . "product p ON (pf.product_id = p.product_id)";
-			} else {
-				$sql .= " LEFT JOIN " . DB_PREFIX . "product p ON (p2c.product_id = p.product_id)";
-			}
-		} else {
 			$sql .= " FROM " . DB_PREFIX . "product p";
-		}
 
-		$sql .= " LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
+		$sql .= " LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) 
+            LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) 
+            LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id) 
+            WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' 
+            AND p.status = '1' AND p.date_available <= NOW() 
+            AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
 
 		if (!empty($data['filter_category_id'])) {
 			if (!empty($data['filter_sub_category'])) {
@@ -152,6 +151,10 @@ class ModelCatalogProduct extends Model {
 		if (!empty($data['filter_manufacturer_id'])) {
 			$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
 		}
+
+        if ($category_id) {
+            $sql .= " AND p2c.category_id = '" . (int)$category_id . "'";
+        }
 
 		$sql .= " GROUP BY p.product_id";
 
@@ -307,31 +310,12 @@ class ModelCatalogProduct extends Model {
 	}
 
 	public function getProductAttributes($product_id) {
-		$product_attribute_group_data = array();
 
-		$product_attribute_group_query = $this->db->query("SELECT ag.attribute_group_id, agd.name FROM " . DB_PREFIX . "product_attribute pa LEFT JOIN " . DB_PREFIX . "attribute a ON (pa.attribute_id = a.attribute_id) LEFT JOIN " . DB_PREFIX . "attribute_group ag ON (a.attribute_group_id = ag.attribute_group_id) LEFT JOIN " . DB_PREFIX . "attribute_group_description agd ON (ag.attribute_group_id = agd.attribute_group_id) WHERE pa.product_id = '" . (int)$product_id . "' AND agd.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY ag.attribute_group_id ORDER BY ag.sort_order, agd.name");
+		$query = $this->db->query("SELECT attribute_id
+            FROM " . DB_PREFIX . "product_attribute pa 
+            WHERE pa.product_id = '" . (int)$product_id . "'");
 
-		foreach ($product_attribute_group_query->rows as $product_attribute_group) {
-			$product_attribute_data = array();
-
-			$product_attribute_query = $this->db->query("SELECT a.attribute_id, ad.name, pa.text FROM " . DB_PREFIX . "product_attribute pa LEFT JOIN " . DB_PREFIX . "attribute a ON (pa.attribute_id = a.attribute_id) LEFT JOIN " . DB_PREFIX . "attribute_description ad ON (a.attribute_id = ad.attribute_id) WHERE pa.product_id = '" . (int)$product_id . "' AND a.attribute_group_id = '" . (int)$product_attribute_group['attribute_group_id'] . "' AND ad.language_id = '" . (int)$this->config->get('config_language_id') . "' AND pa.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY a.sort_order, ad.name");
-
-			foreach ($product_attribute_query->rows as $product_attribute) {
-				$product_attribute_data[] = array(
-					'attribute_id' => $product_attribute['attribute_id'],
-					'name'         => $product_attribute['name'],
-					'text'         => $product_attribute['text']
-				);
-			}
-
-			$product_attribute_group_data[] = array(
-				'attribute_group_id' => $product_attribute_group['attribute_group_id'],
-				'name'               => $product_attribute_group['name'],
-				'attribute'          => $product_attribute_data
-			);
-		}
-
-		return $product_attribute_group_data;
+		return $query->rows;
 	}
 
 	public function getProductOptions($product_id) {
@@ -536,4 +520,86 @@ class ModelCatalogProduct extends Model {
 			return 0;
 		}
 	}
+
+	public function getIngredients($product_id) {
+        $attribute_data = array();
+
+        $attribute_query = $this->db->query("SELECT a.attribute_id, ad.name 
+            FROM " . DB_PREFIX . "product_attribute pa 
+            INNER JOIN " . DB_PREFIX . "attribute a ON (pa.attribute_id = a.attribute_id) 
+            INNER JOIN " . DB_PREFIX . "attribute_description ad ON (a.attribute_id = ad.attribute_id) 
+            WHERE ad.language_id = '" . (int)$this->config->get('config_language_id') . "'
+            AND pa.language_id = '" . (int)$this->config->get('config_language_id') . "' 
+            AND pa.product_id = '" . (int)$product_id . "'
+            ORDER BY a.sort_order, ad.name");
+        foreach ($attribute_query->rows as $row) {
+            $allergens_data = array();
+
+            $allergen_query = $this->db->query("SELECT ad.name, ag.allergen_group_id
+                FROM " . DB_PREFIX . "attribute_to_allergen a2a 
+                INNER JOIN " . DB_PREFIX . "allergen_group ag ON (ag.allergen_group_id = a2a.allergen_group_id) 
+                INNER JOIN " . DB_PREFIX . "allergen_group_description ad ON (ag.allergen_group_id = ad.allergen_group_id) 
+                WHERE a2a.attribute_id = '" . (int)$row['attribute_id'] . "' 
+                AND ad.language_id = '" . (int)$this->config->get('config_language_id') . "' 
+                ORDER BY ag.sort_order");
+
+            foreach ($allergen_query->rows as $_row) {
+                $allergens_data[] = array(
+                    'name' => $_row['name'],
+                    'id' => $_row['allergen_group_id']
+                );
+            }
+
+            $attribute_data[] = array(
+                'name' => $row['name'],
+                'id' => $row['attribute_id'],
+                'allergen' => $allergens_data
+            );
+        }
+
+        return $attribute_data;
+    }
+
+    public function getAllergenList() {
+        $result = array();
+
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "allergen_group a
+            INNER JOIN " . DB_PREFIX . "allergen_group_description ad ON(a.allergen_group_id = ad.allergen_group_id)
+            WHERE ad.language_id = '" . (int)$this->config->get('config_language_id') . "' 
+            ORDER BY ad.name");
+        foreach ($query->rows as $row) {
+            $_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "allergen a
+            INNER JOIN " . DB_PREFIX . "allergen_description ad ON(a.allergen_id = ad.allergen_id)
+            WHERE ad.language_id = '" . (int)$this->config->get('config_language_id') . "'
+            AND a.allergen_group_id = '" . (int)$row['allergen_group_id'] . "'");
+
+            $result[] = array (
+                'name' => $row['name'],
+                'id' => $row['allergen_group_id'],
+                'description' => $row['description'],
+                'allergens' => (!empty($_query->rows)) ? $_query->rows : array()
+            );
+        }
+        return $result;
+    }
+
+    public function getIngredientList() {
+        $result = array();
+
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "attribute_group a
+            INNER JOIN " . DB_PREFIX . "attribute_group_description ad ON(a.attribute_group_id = ad.attribute_group_id)
+            WHERE ad.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+        foreach ($query->rows as $row) {
+            $_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "attribute a
+            INNER JOIN " . DB_PREFIX . "attribute_description ad ON(a.attribute_id = ad.attribute_id)
+            WHERE ad.language_id = '" . (int)$this->config->get('config_language_id') . "'
+            AND a.attribute_group_id = '" . (int)$row['attribute_group_id'] . "'");
+
+            $result[] = array (
+                'name' => $row['name'],
+                'ingredients' => (!empty($_query->rows)) ? $_query->rows : array()
+            );
+        }
+        return $result;
+    }
 }

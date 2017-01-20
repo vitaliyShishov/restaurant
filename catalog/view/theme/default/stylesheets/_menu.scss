@@ -1,7 +1,3 @@
-.preloader {
-    display: none
-}
-
 section.menu {
     header {
         position: relative;
@@ -11,12 +7,13 @@ section.menu {
             repeat: repeat-x;
             size: auto 100%;
         }
+        z-index: 1;
         .header_line {
             @extend %triangle_line;
         }
         .header_logo {
             position: relative;
-            z-index: 1;
+            //z-index: 1;
             img {
                 @extend %header_logo;
                 top: 5 * $px;
@@ -62,6 +59,7 @@ section.menu {
         overflow: hidden;
         font-family: Medium;
         color: white;
+        z-index: 0;
         .slide {
             @extend %shim;
             .slide_title {
@@ -128,7 +126,7 @@ section.menu {
             width: 100%;
             bottom: 0;
             border: 0;
-            z-index: 500;
+            z-index: 1;
             text-align: center;
             li {
                 display: inline-block;
@@ -241,6 +239,10 @@ section.menu {
         }
     }
     section.category {
+        display: none;
+        &.active {
+            display: block;
+        }
         .header_field {
             $height_h_block: 120 * $px;
             position: relative;
@@ -380,15 +382,19 @@ section.menu {
                     background-color: $deep_red;
                 }
                 .cat_calc {
-                    display: flex;
+                    //display: flex;
+                    display: none;
                     @extend %cat_btn;
                     background-color: white;
+                    >* {
+                        width: 20 * $px;
+                        text-align: center;
+                    }
                     .cat_plus,
                     .cat_minus {
                         padding: 0 20 * $px;
-                        flex: 100%;
+                        //flex: 100%;
                         color: #999999;
-                        text-align: center;
                     }
                 }
                 .cat_info {
@@ -424,51 +430,76 @@ section.menu {
         }
     }
     .empty {
-        height: 139 * $px;
+        height: $empty_height;
     }
     footer {
         $padding: 20 * $px;
-        display: flex;
-        flex-wrap: wrap;
         position: fixed;
         bottom: 0;
         width: 100%;
-        height: 140 * $px;
-        .footer_line {
-            flex: 100%;
-            height: 5 * $px;
-            background: {
-                image: url(../images/triangle_line.jpg);
-                repeat: repeat-x;
-                size: auto 100%;
+        .footer_menu {
+            display: flex;
+            flex-wrap: wrap;
+            height: $footer_height;
+            .footer_line {
+                flex: 100%;
+                height: 5 * $px;
+                background: {
+                    image: url(../images/triangle_line.jpg);
+                    repeat: repeat-x;
+                    size: auto 100%;
+                }
             }
-        }
-        .footer_price,
-        .footer_cart {
-            flex: 50%;
-            position: relative;
-            height: 100%;
-            img {
-                position: absolute;
-                left: $padding;
-                bottom: 45 * $px;
-                height: auto;
+            .footer_price,
+            .footer_cart {
+                flex: 50%;
+                position: relative;
+                //height: 100%;
+                img {
+                    position: absolute;
+                    left: $padding;
+                    bottom: 45 * $px;
+                    height: auto;
+                }
             }
-        }
-        .footer_price {
-            background-color: $light_beige;
-            
-            img {
-                width: 37 * $px;
+            .footer_price {
+                background-color: $light_beige;
+                img {
+                    width: 37 * $px;
+                }
+                .price {
+                    height: 100%;
+                    line-height: 140 * $px;
+                    font-family: Medium;
+                    font-size: 48 * $px;
+                    padding-left: 90* $px;
+                }
             }
-            .price {
-                
-            }
-        }
-        .footer_cart {
-            background-color: $deep_red;
-            img {
-                width: 50 * $px;
+            .footer_cart {
+                position: relative;
+                background-color: $deep_red;
+                img {
+                    width: 50 * $px;
+                }
+                .cart_title {
+                    height: 100%;
+                    padding-left: 120* $px;
+                    line-height: 140 * $px;
+                    color: white;
+                    font-family: Medium;
+                    font-size: 30 * $px;
+                }
+                &:after {
+                    content: ' ';
+                    position: absolute;
+                    right: $padding*2;
+                    bottom: 50 * $px;
+                    width: 15 * $px;
+                    height: 15 * $px;
+                    border-bottom: 3 * $px solid white;
+                    border-left: 3 * $px solid white;
+                    transform: rotate(-225deg);
+                }
             }
         }
     }

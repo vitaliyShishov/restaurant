@@ -30,7 +30,10 @@ $font_yellow: #fdd93c;
 $border_yellow: #fed700;
 $dark_shim: rgba(35, 35, 35, 0.55);
 $light_shim: rgba(255, 255, 255, 0.55);
+$border_grey: #cecccc;
 $light_green: #3daf75;
+$footer_height: 140 * $px;
+$empty_height: $footer_height - 1 * $px;
 %down_arrow {
     position: relative;
     width: 40 * $px;
@@ -95,8 +98,9 @@ $light_green: #3daf75;
         background-color: $dark_shim;
     }
 }
+
 %white_shim {
-        position: relative;
+    position: relative;
     &:before {
         content: '';
         position: absolute;
@@ -158,4 +162,50 @@ input:-moz-placeholder {
     to {
         transform: rotate(360deg)
     }
+}
+
+@keyframes next_button_line{
+    from {
+        transform: translateX(-100%)
+    }
+    to {
+        transform: translateX(100%)
+    }
+}
+
+%pop {
+    position: fixed;
+    top: 10* $px;
+    left: 10* $px;
+    right: 10* $px;
+    bottom: 10* $px;
+    background-color: rgba(228, 212, 187, 0.85);
+    z-index: 1;
+}
+
+%lang {
+    position: relative;
+    height: 100%;
+    padding-left: 60 * $px;
+    line-height: 100 * $px;
+    font-size: $fs_30;
+    span {
+        font-family: Regular;
+    }
+    img {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        width: 43 * $px;
+        height: auto;
+    }
+}
+
+%pop_close_button {
+    position: absolute;
+    top: 30 * $px;
+    right: 30 * $px;
+    color: rgba(0, 0, 0, 0.67);
+    font-size: $fs_60;
 }

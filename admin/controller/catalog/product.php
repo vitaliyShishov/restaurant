@@ -37,6 +37,14 @@ class ControllerCatalogProduct extends Controller {
                         if (isset($this->request->get['filter_weight'])) {
 				$url .= '&filter_weight=' . urlencode(html_entity_decode($this->request->get['filter_weight'], ENT_QUOTES, 'UTF-8'));
 			}
+                        
+                        if (isset($this->request->get['filter_energy_value'])) {
+				$url .= '&filter_energy_value=' . urlencode(html_entity_decode($this->request->get['filter_energy_value'], ENT_QUOTES, 'UTF-8'));
+			}
+
+            if (isset($this->request->get['filter_is_vegan'])) {
+                $url .= '&filter_is_vegan=' . $this->request->get['filter_is_vegan'];
+            }
 
 			if (isset($this->request->get['filter_price'])) {
 				$url .= '&filter_price=' . $this->request->get['filter_price'];
@@ -92,6 +100,14 @@ class ControllerCatalogProduct extends Controller {
                         
                         if (isset($this->request->get['filter_weight'])) {
 				$url .= '&filter_weight=' . $this->request->get['filter_weight'];
+			}
+                        
+                        if (isset($this->request->get['filter_energy_value'])) {
+				$url .= '&filter_energy_value=' . $this->request->get['filter_energy_value'];
+			}
+
+			if (isset($this->request->get['filter_is_vegan'])) {
+				$url .= '&filter_is_vegan=' . $this->request->get['filter_is_vegan'];
 			}
 
 			if (isset($this->request->get['filter_price'])) {
@@ -151,6 +167,14 @@ class ControllerCatalogProduct extends Controller {
                         if (isset($this->request->get['filter_weight'])) {
 				$url .= '&filter_weight=' . $this->request->get['filter_weight'];
 			}
+                        
+                        if (isset($this->request->get['filter_energy_value'])) {
+				$url .= '&filter_energy_value=' . $this->request->get['filter_energy_value'];
+			}
+
+            if (isset($this->request->get['filter_is_vegan'])) {
+                $url .= '&filter_is_vegan=' . $this->request->get['filter_is_vegan'];
+            }
 
 			if (isset($this->request->get['filter_price'])) {
 				$url .= '&filter_price=' . $this->request->get['filter_price'];
@@ -209,6 +233,14 @@ class ControllerCatalogProduct extends Controller {
                         if (isset($this->request->get['filter_weight'])) {
 				$url .= '&filter_weight=' . $this->request->get['filter_weight'];
 			}
+                        
+                        if (isset($this->request->get['filter_energy_value'])) {
+				$url .= '&filter_energy_value=' . $this->request->get['filter_energy_value'];
+			}
+
+            if (isset($this->request->get['filter_is_vegan'])) {
+                $url .= '&filter_is_vegan=' . $this->request->get['filter_is_vegan'];
+            }
 
 			if (isset($this->request->get['filter_price'])) {
 				$url .= '&filter_price=' . $this->request->get['filter_price'];
@@ -258,6 +290,18 @@ class ControllerCatalogProduct extends Controller {
 		} else {
 			$filter_weight = null;
 		}
+                
+                if (isset($this->request->get['filter_energy_value'])) {
+            $filter_energy_value = $this->request->get['filter_energy_value'];
+        } else {
+            $filter_energy_value = null;
+        }
+
+        if (isset($this->request->get['filter_is_vegan'])) {
+            $filter_is_vegan = $this->request->get['filter_is_vegan'];
+        } else {
+            $filter_is_vegan = null;
+        }
 
 		if (isset($this->request->get['filter_price'])) {
 			$filter_price = $this->request->get['filter_price'];
@@ -315,6 +359,10 @@ class ControllerCatalogProduct extends Controller {
 			$url .= '&filter_weight=' . $this->request->get['filter_weight'];
 		}
                 
+                if (isset($this->request->get['filter_energy_value'])) {
+			$url .= '&filter_energy_value=' . $this->request->get['filter_energy_value'];
+		}
+                
                 if (isset($this->request->get['filter_price'])) {
 			$url .= '&filter_price=' . $this->request->get['filter_price'];
 		}
@@ -365,6 +413,7 @@ class ControllerCatalogProduct extends Controller {
 			'filter_name'	  => $filter_name,
 			'filter_model'	  => $filter_model,
                         'filter_weight'	  => $filter_weight,
+                        'filter_energy_value'	  => $filter_energy_value,
 			'filter_price'	  => $filter_price,
 			'filter_quantity' => $filter_quantity,
 			'filter_status'   => $filter_status,
@@ -406,6 +455,8 @@ class ControllerCatalogProduct extends Controller {
 				'name'       => $result['name'],
 				'model'      => $result['model'],
 				'weight'     => $result['weight'],
+                'energy_value' =>$result['energy_value'],
+                'is_vegan'     => $result['is_vegan'],
 				'price'      => $result['price'],
 				'special'    => $special,
 				'quantity'   => $result['quantity'],
@@ -426,6 +477,7 @@ class ControllerCatalogProduct extends Controller {
 		$data['column_name'] = $this->language->get('column_name');
 		$data['column_model'] = $this->language->get('column_model');
 		$data['column_weight'] = $this->language->get('column_weight');
+		$data['column_energy_value'] = $this->language->get('column_energy_value');
 		$data['column_price'] = $this->language->get('column_price');
 		$data['column_quantity'] = $this->language->get('column_quantity');
 		$data['column_status'] = $this->language->get('column_status');
@@ -434,6 +486,8 @@ class ControllerCatalogProduct extends Controller {
 		$data['entry_name'] = $this->language->get('entry_name');
 		$data['entry_model'] = $this->language->get('entry_model');
 		$data['entry_weight'] = $this->language->get('entry_weight');
+		$data['entry_energy_value'] = $this->language->get('entry_energy_value');
+		$data['entry_is_vegan'] = $this->language->get('entry_is_vegan');
 		$data['entry_price'] = $this->language->get('entry_price');
 		$data['entry_quantity'] = $this->language->get('entry_quantity');
 		$data['entry_status'] = $this->language->get('entry_status');
@@ -481,6 +535,10 @@ class ControllerCatalogProduct extends Controller {
 			$url .= '&filter_weight=' . $this->request->get['filter_weight'];
 		}
                 
+		if (isset($this->request->get['filter_energy_value'])) {
+			$url .= '&filter_energy_value=' . $this->request->get['filter_energy_value'];
+		}
+                
                 if (isset($this->request->get['filter_price'])) {
 			$url .= '&filter_price=' . $this->request->get['filter_price'];
 		}
@@ -510,6 +568,7 @@ class ControllerCatalogProduct extends Controller {
 		$data['sort_name'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&sort=pd.name' . $url, true);
 		$data['sort_model'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&sort=p.model' . $url, true);
 		$data['sort_weight'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&sort=p.weight' . $url, true);
+		$data['sort_energy_value'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&sort=p.energy_value' . $url, true);
 		$data['sort_price'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&sort=p.price' . $url, true);
 		$data['sort_quantity'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&sort=p.quantity' . $url, true);
 		$data['sort_status'] = $this->url->link('catalog/product', 'token=' . $this->session->data['token'] . '&sort=p.status' . $url, true);
@@ -531,6 +590,10 @@ class ControllerCatalogProduct extends Controller {
                 
                 if (isset($this->request->get['filter_weight'])) {
 			$url .= '&filter_weight=' . $this->request->get['filter_weight'];
+		}
+                
+                if (isset($this->request->get['filter_energy_value'])) {
+			$url .= '&filter_energy_value=' . $this->request->get['filter_energy_value'];
 		}
 
 		if (isset($this->request->get['filter_quantity'])) {
@@ -566,6 +629,8 @@ class ControllerCatalogProduct extends Controller {
 		$data['filter_name'] = $filter_name;
 		$data['filter_model'] = $filter_model;
 		$data['filter_weight'] = $filter_weight;
+		$data['filter_energy_value'] = $filter_energy_value;
+		$data['filter_is_vegan'] = $filter_is_vegan;
 		$data['filter_price'] = $filter_price;
 		$data['filter_quantity'] = $filter_quantity;
 		$data['filter_status'] = $filter_status;
@@ -629,6 +694,8 @@ class ControllerCatalogProduct extends Controller {
 		$data['entry_length_class'] = $this->language->get('entry_length_class');
 		$data['entry_length'] = $this->language->get('entry_length');
 		$data['entry_width'] = $this->language->get('entry_width');
+		$data['entry_energy_value'] = $this->language->get('entry_energy_value');
+		$data['entry_is_vegan'] = $this->language->get('entry_is_vegan');
 		$data['entry_height'] = $this->language->get('entry_height');
 		$data['entry_image'] = $this->language->get('entry_image');
 		$data['entry_additional_image'] = $this->language->get('entry_additional_image');
@@ -737,6 +804,14 @@ class ControllerCatalogProduct extends Controller {
 
 		if (isset($this->request->get['filter_weight'])) {
 			$url .= '&filter_weight=' . $this->request->get['filter_weight'];
+		}
+                
+		if (isset($this->request->get['filter_energy_value'])) {
+			$url .= '&filter_energy_value=' . $this->request->get['filter_energy_value'];
+		}
+
+		if (isset($this->request->get['filter_is_vegan'])) {
+			$url .= '&filter_is_vegan=' . $this->request->get['filter_is_vegan'];
 		}
                 
                 if (isset($this->request->get['filter_price'])) {
@@ -992,6 +1067,22 @@ class ControllerCatalogProduct extends Controller {
 		} else {
 			$data['weight'] = '';
 		}
+                
+        if (isset($this->request->post['energy_value'])) {
+			$data['energy_value'] = $this->request->post['energy_value'];
+		} elseif (!empty($product_info['energy_value'])) {
+			$data['energy_value'] = $product_info['energy_value'];
+		} else {
+			$data['energy_value'] = '';
+		}
+
+		if (isset($this->request->post['is_vegan'])) {
+			$data['is_vegan'] = $this->request->post['is_vegan'];
+		} elseif (!empty($product_info['is_vegan'])) {
+			$data['is_vegan'] = $product_info['is_vegan'];
+		} else {
+			$data['is_vegan'] = '';
+		}
 
 		$this->load->model('localisation/weight_class');
 
@@ -1166,7 +1257,9 @@ class ControllerCatalogProduct extends Controller {
 						'points'                  => $product_option_value['points'],
 						'points_prefix'           => $product_option_value['points_prefix'],
 						'weight'                  => $product_option_value['weight'],
-						'weight_prefix'           => $product_option_value['weight_prefix']
+						'weight_prefix'           => $product_option_value['weight_prefix'],
+						'energy_value'            => $product_option_value['energy_value'],
+						'is_vegan'                => $product_option_value['is_vegan']
 					);
 				}
 			}
